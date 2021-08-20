@@ -15,16 +15,13 @@ type App struct {
 // extend App struct method
 func (app *App) Run() error {
 	fmt.Println("setting up our app.")
-
 	handler := transportHTTP.NewHandler()
 	handler.SetupRoutes()
 	if err := http.ListenAndServe(":8080", handler.Router); err != nil {
 		fmt.Println("failed to set up server")
 		return err
 	}
-
 	return nil
-
 }
 
 func main() {
