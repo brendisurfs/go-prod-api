@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/brendisurfs/golang-prod-api/internal/database"
 	transportHTTP "github.com/brendisurfs/golang-prod-api/internal/transport/http"
 )
 
@@ -15,6 +16,13 @@ type App struct {
 // extend App struct method
 func (app *App) Run() error {
 	fmt.Println("setting up our app.")
+
+	var err error
+	_, err = database.NewDatabase()
+	if err != nil {
+		return err
+	}
+
 	handler := transportHTTP.NewHandler()
 	handler.SetupRoutes()
 	if err := http.ListenAndServe(":8080", handler.Router); err != nil {
